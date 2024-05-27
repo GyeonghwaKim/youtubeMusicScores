@@ -1,0 +1,100 @@
+<html lang="en" layout:decorate="~{newLayout}">
+
+  <body>
+<!--유튜브.html 자리-->
+    <div layout:fragment="content" class="container">
+
+    <!--몇일째 연습 자리-->
+        <div class="row">
+            <div class="col d-flex justify-content-center align-items-center">
+                <h1 th:text="${title}">Default Title</h1>
+            </div>
+          </div>
+    <!--몇일째 연습 자리-->
+    <!--연습 응원 자리-->
+          <div class="row">
+            <div class="col d-flex justify-content-center align-items-center">
+                <h2>오늘 <span>100</span>일 째 연습이네요!</h2>
+            </div>
+          </div>
+    <!--연습 응원 자리-->
+        <div class="row">
+    <!--유튜브 자리-->
+          <div class="col d-flex justify-content-center align-items-center">
+            <div class="youtubeContainer">
+                <div class="youtubeBox" id="player"></div>
+            </div>
+          </div>
+    <!--유튜브 자리-->
+         </div>
+
+
+
+<script th:inline="javascript">
+
+        function getYouTubeVideoId(url) {
+
+            var videoId = '';
+
+            var urlParams = new URLSearchParams(new URL(url).search);
+
+
+            if (urlParams.has('v')) {
+            videoId = urlParams.get('v');}
+            else {
+
+            var regExp = /youtu\.be\/([^\/\?]+)/;
+            var match = url.match(regExp);
+            if (match && match[1]) {
+                videoId = match[1];}
+        }
+
+            return videoId;
+            }
+
+          var youtubeUrl =[[${url}]];
+          console.log(youtubeUrl);
+          var videoId=getYouTubeVideoId(youtubeUrl);
+          console.log(videoId);
+
+
+          var tag = document.createElement('script');
+
+          tag.src = "https://www.youtube.com/iframe_api";
+          var firstScriptTag = document.getElementsByTagName('script')[0];
+          firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+
+          var player;
+          function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+              height: '720',
+              width: '1280',
+              videoId:videoId ,
+              events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+              }
+            });
+          }
+
+
+          function onPlayerReady(event) {
+            event.target.playVideo();
+          }
+
+
+          var done = false;
+          function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.PLAYING && !done) {
+              setTimeout(stopVideo, 6000);
+              done = true;
+            }
+          }
+          function stopVideo() {
+            player.stopVideo();
+          }
+    </script>
+    </div>
+  </body>
+</html>

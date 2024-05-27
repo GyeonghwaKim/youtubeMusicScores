@@ -1,0 +1,13 @@
+<div th:fragment="errorsFragment" >
+  <div style="position:absolute;
+    left:380px; top:100px" role="alert" th:if="${#fields.hasAnyErrors()}">
+    <ul th:each="err : ${#fields.allErrors()}" style="list-style:none;">
+      <li name="err">
+        <span th:text="${err}" class="error-message"></span>
+      </li>
+    </ul>
+
+
+    </div>
+  </div>
+</div>

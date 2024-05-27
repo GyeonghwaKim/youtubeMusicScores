@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{layout}">
+<head>
+
+</head>
+<body>
+    <div layout:fragment="content">
+
+        <div>
+            <div class=signupFrame></div>
+            <span  class=joinTitle>회원가입</span>
+
+            <form th:action="@{/users/signup}" th:object="${signupForm}" method="post">
+                <div th:replace="~{errors :: errorsFragment}"></div>
+            <span  class=createIdText>아이디</span>
+            <input class=createIdInput th:field="*{username}" required>
+            <span  class=createPwText>비밀번호 </span>
+            <input class=createPwInput th:field="*{password}" type="password" required>
+            <span  class=confirmPwText>비밀번호 확인</span>
+            <input class=confirmPwInput th:field="*{confirmPassword}" type="password" required>
+            <span  class=createEmailText>이메일 </span>
+            <input class=createEmailInput th:field="*{email}" required>
+            <button  type="submit" class=joinSubmit>확인</button>
+            </form>
+          </div>
+
+    </div>
+    
+</body>
+</html>

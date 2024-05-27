@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{layout}">
+<head>
+</head>
+<body>
+    <div layout:fragment="content">
+
+        <div class="saveFormFrame"></div>
+
+        <form th:action="@{/saveSheets}" th:object="${sheetForm}" method="post">
+            <div th:replace="~{errors :: errorsFragment}"></div>
+            <span class="addTitle">제목:</span>
+            <input class="inputTitle" th:field="*{title}" type="text">
+            <span class="addURL">URL:</span>
+            <input class="inputURL" th:field="*{url}" type="text">
+            <button type="submit" class="saveBtn">저장</button>
+        </form>
+
+    </div>
+
+</body>
+</html>

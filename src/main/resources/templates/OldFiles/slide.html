@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+
+<div th:fragment="slideFragment">
+
+    <div class="nav">
+        <div class="menuBtn"><img th:src="@{../images/menu.png}" alt=""></div>
+        <div sec:authorize="isAnonymous()">
+            <form th:action="@{/users/login}" method="get">
+            <button class="loginBtn" type="submit">로그인</button>
+            </form>
+        </div>
+        <div sec:authorize="isAuthenticated()">
+            <form th:action="@{/users/logout}" method="get">
+            <button class="loginBtn" type="submit" >로그아웃</button>
+            </form>
+        </div>
+    </div>
+    <div class="menubar">
+        <div class="menubarBackgroundColor">
+
+            <div class="fixRow">
+                <div class="homeBtn">
+                    <a th:href="@{/}"><img th:src="@{../images/home.png}" alt=""></a>
+                </div>
+                <div class="returnBtn">
+                    <img th:src="@{../images/return.png}" alt="">
+                </div>
+                <div class="plusBtn">
+                    <a th:href="@{/saveSheets}"><img th:src="@{../images/plus.png}" alt=""></a>
+                </div>
+            </div>
+
+
+            <ul style="list-style:none;" th:each="sheet:${sheetLists}">
+                <li name="sheet">
+                    <div class="row">
+                        <a th:href="@{/sheetLists(id = ${sheet.id})}"><span class="title" th:text="${sheet.title}">노래 제목 안녕하세용</span></a>
+                        <img class="writeBtn" th:src="@{../images/write.png}" alt="">
+                        <form th:action="@{|/sheetLists/delete/${sheet.id}|}" method="post" style="display:inline;">
+                            <button type="submit" class="trashBtn">
+                                <img th:src="@{../images/trash.png}">
+                            </button>
+                        </form>
+
+                        <!--input -->
+                        <div class="modify">
+                        <form th:action="@{|/sheetLists/modify/${sheet.id}|}"  th:object="${modifyTitle}"
+                              method="post" style="display:inline;">
+                            <input class="modifyInput" th:field="*{title}"  required>
+                            <button type="submit" class="modifyBtn"><img th:src="@{../images/ok.png}"></button>
+                        </form>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+
+
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

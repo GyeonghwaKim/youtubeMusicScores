@@ -1,0 +1,64 @@
+    <!--내비게이션바-->
+
+    <nav class="navbar bg-body-tertiary sticky-top" th:fragment="navbarFragment">
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href="@{/}">Youtube Sheets</a>
+            <div class="d-flex">
+                <a id="login" th:href="@{/user/login}" class="btn">
+                    <span class="text-primary">Login</span>
+                </a>
+                <button id="menu" class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                    <span class="text-primary">Menu</span>
+                </button>
+            </div>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Youtube Sheets</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <form class="d-flex mt-3" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/saveSheets}">Save Sheets</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                SheetLists
+                            </a>
+                            <ul class="dropdown-menu" >
+                                <li th:each="sheet:${sheetLists}">
+                                    <div  class="d-flex justify-content-between mb-2">
+                                        <a class="dropdown-item" th:href="@{/sheetLists(id=${sheet.id})}"
+                                           th:text="${sheet.title}">Song's Title</a>
+                                            <input class="btn text-primary" type="button" value="modify" id="nav-modifyBtn">
+                                        <form th:action="@{|/sheetLists/delete/${sheet.id}}|" method="post">
+                                            <input class="btn text-primary" type="submit" value="delete">
+                                        </form>
+                                    </div>
+                                    <div id="nav-modifyDiv" style="display:none;" >
+                                        <form  class="input-group" th:action="@{|/sheetLists/modify/${sheet.id}}|" th:object="${modifyTitle}" method="post">
+                                            <input class="form-control form-control-sm rounded ms-2" type="text" th:field="*{title}"  required>
+                                            <input class="btn text-primary" type="submit" value="check">
+                                        </form>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!--내비게이션바-->

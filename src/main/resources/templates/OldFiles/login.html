@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{layout}">
+<head>
+
+</head>
+<body>
+
+    <div layout:fragment="content">
+    
+        <div class=loginFrame></div>
+        <span  class=loginText>로그인</span>
+        <div th:if="${param.error}">
+            <div class=error-message>
+                사용자ID 또는 비밀번호를 확인해 주세요.
+            </div>
+        </div>
+        <form th:action="@{/users/login}" method="post">
+        <span  class=idText>아이디</span>
+        <input class=idInput id="username" name="username" type="text">
+        <span  class=pwText>비밀번호 </span>
+        <input class=pwInput id="password" name="password" type="password">
+        <button type="submit" class="loginSubmit">로그인</button>
+        </form>
+        <span  class=joinText><a th:href="@{/users/signup}">회원가입이</a> 필요합니까?</span>
+
+      
+    </div>
+</body>
+</html>
