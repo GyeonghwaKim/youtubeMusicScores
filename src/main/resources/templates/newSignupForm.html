@@ -2,7 +2,7 @@
   <body>
   <div layout:fragment="content">
     <form class="form-signup position-absolute top-50 start-50 translate-middle text-center border"
-          th:action="@{/user/signup}" th:object="${signupForm}" method="post">
+          th:action="@{/signup}" th:object="${signupForm}" method="post">
         <h1>Sign up!</h1>
         <div th:replace="~{newError :: errorsFragment}"></div>
         <div class="input-group input-group-lg mb-3">

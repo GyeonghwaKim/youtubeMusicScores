@@ -1,7 +1,6 @@
 package com.example.youtubeSheet.service;
 
 import com.example.youtubeSheet.dto.UserCreateRequestDto;
-import com.example.youtubeSheet.dto.UserRequestDto;
 import com.example.youtubeSheet.entity.SiteUser;
 
 import com.example.youtubeSheet.entity.UserRole;

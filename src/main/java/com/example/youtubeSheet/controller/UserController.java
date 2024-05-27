@@ -2,7 +2,9 @@ package com.example.youtubeSheet.controller;
 
 
 import com.example.youtubeSheet.dto.UserCreateRequestDto;
-import com.example.youtubeSheet.dto.UserRequestDto;
+
+import com.example.youtubeSheet.dto.ProfileDto;
+import com.example.youtubeSheet.entity.SiteUser;
 import com.example.youtubeSheet.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,8 +16,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @Slf4j
-@RequestMapping("/user")
 @RequiredArgsConstructor
 @Controller
 public class UserController {
@@ -75,6 +78,39 @@ public class UserController {
         return "newLoginForm";
     }
 
+
+    @GetMapping("/profile")
+    public String profile(Model model, Principal principal){
+        ProfileDto profileDto =new ProfileDto();
+        profileDto.setUsername(principal.getName());
+        profileDto.setEmail(this.userService.findByUsername(principal.getName()).getEmail());
+        model.addAttribute("user", profileDto);
+
+        return "newProfile";
+    }
+
+    @PostMapping("/profile")
+    public String profile(@Valid @ModelAttribute("user") ProfileDto profileDto,BindingResult bindingResult){
+
+        if(bindingResult.hasErrors()){
+            return "newProfile";
+        }
+
+        if(!profileDto.getConfirmPassword().equals(profileDto.getPassword())){
+
+            bindingResult.rejectValue("confirmPassword","passwordInCorrect",
+                    "2개의 패스워드가 일치하지 않습니다.");
+
+            return "newProfile";
+        }else{
+
+            SiteUser siteUser=this.userService.findByUsername(profileDto.getUsername());
+            siteUser.setPassword(profileDto.getPassword());
+
+            return "redirect:/profile";
+        }
+
+    }
 
 
 }

@@ -27,11 +27,11 @@ public class SecurityConfig {
                 (authorizeHttpRequests)-> authorizeHttpRequests
                         .requestMatchers("/**"/*,"/users/**"*/).permitAll()
                         .anyRequest().authenticated())
-                .formLogin((formLogin)->formLogin.loginPage("/user/login")
+                .formLogin((formLogin)->formLogin.loginPage("/login")
                         .defaultSuccessUrl("/"))
                 .logout((logout)->
                         logout.logoutRequestMatcher(
-                                new AntPathRequestMatcher("/user/logout"))
+                                new AntPathRequestMatcher("/logout"))
                                 .logoutSuccessUrl("/")
                                 .invalidateHttpSession(true));
 
