@@ -5,83 +5,21 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Youtube-Sheets</title>
-
-
+  <!--css-->
+  <link rel="stylesheet" th:href="@{../css/style.css}">
   <!-- Bootstrap CSS & JS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   <!--제이쿼리-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-
-  <style>
-        .navbar {
-          font-size: 1.25rem; /* 기본 글꼴 크기보다 25% 더 크게 */
-          padding: 1rem 1.5rem; /* 내비게이션 바의 패딩을 더 크게 */
-        }
-        .navbar-brand {
-          font-size: 1.5rem; /* 브랜드 텍스트 크기를 더 크게 */
-        }
-        .navbar-nav .nav-link {
-          padding: 0.75rem 1rem; /* 내비게이션 링크의 패딩을 더 크게 */
-        }
-
-
-        .youtubeContainer {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 70vh; /* Viewport height: 전체 화면 높이 */}
-
-
-        .youtubeBox {
-        width: 1280x;
-        height: 720px;
-        background-color: black;
-        }
-
-        .form-signin{
-          width:100%;
-          max-width: 400px;
-          padding:15px;
-          margin: auto;
-        }
-        .form-save{
-          width:100%;
-          max-width: 1000px;
-          padding:15px;
-          margin: auto;
-        }
-
-        .form-signup{
-          width:100%;
-          max-width: 1000px;
-          padding:15px;
-          margin: auto;
-        }
-
-        .form-profile{
-            width:100%;
-            max-width: 1000px;
-            padding:15px;
-            margin: auto;
-        }
-
-      </style>
 </head>
 <body>
   <th:block th:replace="~{newNavbar :: navbarFragment}"></th:block>
   <th:block layout:fragment="content"></th:block>
 
-  <script>
-
-        $("li>div>#nav-modifyBtn").on("click",function(){
-          var index=$("li>div>#nav-modifyBtn").index(this);
-
-          $("li>#nav-modifyDiv").eq(index).toggle();
-
-});
-    </script>
+<!--js-->
+  <script type="text/javascript" th:src="@{../js/scripts.js}"></script>
 </body>
 
 
