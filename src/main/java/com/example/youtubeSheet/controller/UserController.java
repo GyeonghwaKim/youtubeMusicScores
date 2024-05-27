@@ -1,12 +1,11 @@
 package com.example.youtubeSheet.controller;
 
 
-import com.example.youtubeSheet.dto.UserCreateRequestDto;
+import com.example.youtubeSheet.entity.dto.UserCreateRequestDto;
 
-import com.example.youtubeSheet.dto.ProfileDto;
+import com.example.youtubeSheet.entity.dto.ProfileDto;
 import com.example.youtubeSheet.entity.SiteUser;
 import com.example.youtubeSheet.service.UserService;
-import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

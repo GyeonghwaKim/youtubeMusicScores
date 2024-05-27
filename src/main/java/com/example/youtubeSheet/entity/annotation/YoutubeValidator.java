@@ -1,4 +1,4 @@
-package com.example.youtubeSheet.annotation;
+package com.example.youtubeSheet.entity.annotation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

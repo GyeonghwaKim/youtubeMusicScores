@@ -1,10 +1,9 @@
 package com.example.youtubeSheet.service;
 
-import com.example.youtubeSheet.dto.ProfileDto;
-import com.example.youtubeSheet.dto.UserCreateRequestDto;
+import com.example.youtubeSheet.entity.dto.ProfileDto;
+import com.example.youtubeSheet.entity.dto.UserCreateRequestDto;
 import com.example.youtubeSheet.entity.SiteUser;
 
-import com.example.youtubeSheet.entity.UserRole;
 import com.example.youtubeSheet.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

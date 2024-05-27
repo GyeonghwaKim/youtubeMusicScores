@@ -1,6 +1,6 @@
-package com.example.youtubeSheet.dto;
+package com.example.youtubeSheet.entity.dto;
 
-import com.example.youtubeSheet.annotation.Youtube;
+import com.example.youtubeSheet.entity.annotation.Youtube;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;

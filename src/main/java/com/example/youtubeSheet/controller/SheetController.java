@@ -1,19 +1,17 @@
 package com.example.youtubeSheet.controller;
 
 
-import com.example.youtubeSheet.dto.SheetSaveForm;
-import com.example.youtubeSheet.dto.SheetSaveRequestDto;
-import com.example.youtubeSheet.dto.SheetTitleForm;
+import com.example.youtubeSheet.entity.dto.SheetSaveForm;
+import com.example.youtubeSheet.entity.dto.SheetSaveRequestDto;
+import com.example.youtubeSheet.entity.dto.SheetTitleForm;
 import com.example.youtubeSheet.entity.Sheet;
 
 import com.example.youtubeSheet.entity.SiteUser;
-import com.example.youtubeSheet.entity.exception.EmptyTitleException;
 import com.example.youtubeSheet.service.SheetsService;
 import com.example.youtubeSheet.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -88,7 +86,6 @@ public class SheetController {
     public String modifySheets(@PathVariable(name = "id")Long id,
                                @Valid @ModelAttribute("modifyTitle")SheetTitleForm sheetTitleForm,BindingResult bindingResult){
 
-        if(bindingResult.hasErrors()) throw new EmptyTitleException("제목이 공백일 수 없습니다");
         Sheet sheet=this.sheetsService.getSheet(id);
         this.sheetsService.modify(sheet,sheetTitleForm.getTitle());
         return "redirect:/sheetLists?id="+id;

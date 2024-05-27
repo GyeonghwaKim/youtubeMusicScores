@@ -1,13 +1,10 @@
 package com.example.youtubeSheet.service;
 
 
-import com.example.youtubeSheet.dto.SheetSaveForm;
-import com.example.youtubeSheet.dto.SheetSaveRequestDto;
+import com.example.youtubeSheet.entity.dto.SheetSaveForm;
 import com.example.youtubeSheet.entity.Sheet;
 import com.example.youtubeSheet.entity.SiteUser;
 import com.example.youtubeSheet.repository.SheetsRepository;
-import com.example.youtubeSheet.repository.UserRepository;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +17,6 @@ import java.util.Optional;
 public class SheetsService {
 
     private final SheetsRepository sheetsRepository;
-
-    private final UserRepository userRepository;
 
     public void save(SheetSaveForm sheetSaveForm, SiteUser siteUser){
 

@@ -1,4 +1,4 @@
-package com.example.youtubeSheet.annotation;
+package com.example.youtubeSheet.entity.annotation;
 
 
 import jakarta.validation.Constraint;
@@ -11,9 +11,10 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = UniqueValidator.class)
-public @interface Unique {
-    String message() default "id 중복입니다";
+@Constraint(validatedBy = YoutubeValidator.class)
+public @interface Youtube {
+
+    String message() default "형식에 맞지 않는 url입니다";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 

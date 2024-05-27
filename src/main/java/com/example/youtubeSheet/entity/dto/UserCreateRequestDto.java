@@ -1,14 +1,10 @@
-package com.example.youtubeSheet.dto;
+package com.example.youtubeSheet.entity.dto;
 
-import com.example.youtubeSheet.annotation.Unique;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.core.io.support.SpringFactoriesLoader;
-import org.springframework.web.method.annotation.ModelAttributeMethodProcessor;
-import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor;
 
 @Getter
 @Setter

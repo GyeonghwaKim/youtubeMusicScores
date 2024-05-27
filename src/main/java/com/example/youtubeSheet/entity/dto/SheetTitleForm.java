@@ -1,4 +1,4 @@
-package com.example.youtubeSheet.dto;
+package com.example.youtubeSheet.entity.dto;
 
 
 import jakarta.validation.constraints.NotBlank;

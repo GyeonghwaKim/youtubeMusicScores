@@ -1,7 +1,7 @@
 package com.example.youtubeSheet.entity;
 
 
-import com.example.youtubeSheet.dto.SheetSaveRequestDto;
+import com.example.youtubeSheet.entity.dto.SheetSaveRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
