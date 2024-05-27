@@ -6,6 +6,7 @@ import com.example.youtubeSheet.dto.UserCreateRequestDto;
 import com.example.youtubeSheet.dto.ProfileDto;
 import com.example.youtubeSheet.entity.SiteUser;
 import com.example.youtubeSheet.service.UserService;
+import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -25,6 +27,7 @@ public class UserController {
 
 
     private final UserService userService;
+
 
     @GetMapping("/signup")
     public String join(Model model){
@@ -102,13 +105,48 @@ public class UserController {
                     "2개의 패스워드가 일치하지 않습니다.");
 
             return "newProfile";
-        }else{
-
-            SiteUser siteUser=this.userService.findByUsername(profileDto.getUsername());
-            siteUser.setPassword(profileDto.getPassword());
-
-            return "redirect:/profile";
         }
+
+//        boolean isEmailUnique=checkEmailUniqueness(profileDto);
+//        if(!isEmailUnique){
+//
+//            log.info("다른 사용자가 사용중일때");
+//            bindingResult.rejectValue("email","emailIncorrect","가능한 이메일이 아닙니다");
+//            return "newProfile";
+//        }
+
+        try{
+            this.userService.changeEmail(profileDto);
+            this.userService.changePassword(profileDto);
+        }catch (DataIntegrityViolationException e){
+            e.printStackTrace();
+            bindingResult.reject("changeEmail","이미 등록된 이용자입니다");
+            return "newProfile";}
+
+
+            return "redirect:/";
+
+
+    }
+
+    private boolean checkEmailUniqueness(ProfileDto profileDto) {
+
+        SiteUser siteUser=
+        this.userService.findByUsername(profileDto.getUsername());
+
+        String newEmail=profileDto.getEmail();
+        String originEmail=siteUser.getEmail();
+
+        List<String> emailList=this.userService.findAllEmail();
+
+        for(String email:emailList){
+
+            if(email.equals(originEmail)) return true;
+            if(email.equals(newEmail)) return false;
+
+        }
+
+        return true;
 
     }
 

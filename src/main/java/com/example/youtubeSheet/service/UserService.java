@@ -1,5 +1,6 @@
 package com.example.youtubeSheet.service;
 
+import com.example.youtubeSheet.dto.ProfileDto;
 import com.example.youtubeSheet.dto.UserCreateRequestDto;
 import com.example.youtubeSheet.entity.SiteUser;
 
@@ -10,7 +11,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -19,9 +23,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
-    //private final EncryptHelper encryptHelper;
-
-    //private final HttpSession httpSession;
 
     public SiteUser createUser(UserCreateRequestDto userCreateRequestDto) {
 
@@ -30,10 +31,8 @@ public class UserService {
         siteUser.setEmail(userCreateRequestDto.getEmail());
         siteUser.setUuid(UUID.randomUUID());
 
-
-        siteUser.setPassword(passwordEncoder.encode(
-                userCreateRequestDto.getPassword()
-        ));
+        String encodePassword=passwordEncoder.encode(userCreateRequestDto.getPassword());
+        siteUser.setPassword(encodePassword);
 
         this.userRepository.save(siteUser);
 
@@ -44,26 +43,32 @@ public class UserService {
     public SiteUser findByUsername(String name) {
         return this.userRepository.findByUsername(name).get();
     }
+
+    public void changePassword(ProfileDto profileDto) {
+
+        SiteUser siteUser=findByUsername(profileDto.getUsername());
+        String encodePassword=passwordEncoder.encode(profileDto.getPassword());
+
+        siteUser.setPassword(encodePassword);
+
+        this.userRepository.save(siteUser);
+
+    }
+
+    public List<String> findAllEmail() {
+        List<SiteUser> siteUsersList=
+        this.userRepository.findAll();
+        return siteUsersList
+                .stream()
+                .map(SiteUser::getEmail)
+                .collect(Collectors.toList());
+
+    }
+
+    public void changeEmail(ProfileDto profileDto) {
+        SiteUser siteUser=findByUsername(profileDto.getUsername());
+        siteUser.setEmail(profileDto.getEmail());
+        this.userRepository.save(siteUser);
+
+    }
 }
-
-
-//    public void login(UserRequestDto userRequestDto) {
-//
-//        null일 경우 검사해주세용
-//        SiteUser user = userRepository.findByUserId(userRequestDto.getUserId()).get();
-//
-//        //비밀번호 설정
-//        if(encryptHelper.isMatch(userRequestDto.getPassword(), user.getPassword())) {
-//
-//            httpSession.setAttribute("userId", userRequestDto.getUserId());
-//            httpSession.setAttribute("role",user.getRole());
-//
-//            log.info(String.valueOf(user.getRole()));
-//        }else throw new PasswordsNotSameException("패스워드가 일치하지 않습니다");
-//
-//    }
-//
-//    public void logout() {
-//       // httpSession.invalidate();;
-//    }
-//}
