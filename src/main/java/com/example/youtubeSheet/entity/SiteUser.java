@@ -15,7 +15,7 @@ import java.util.UUID;
 @Setter
 @Entity
 public class SiteUser {
-    //id, password, email
+
 
     @Id
     private UUID uuid;
@@ -29,7 +29,6 @@ public class SiteUser {
     @Column(unique=true)
     private String email;
 
-    //private UserRole role;
 
 
     public SiteUser() {

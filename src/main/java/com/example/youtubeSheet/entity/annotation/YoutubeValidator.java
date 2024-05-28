@@ -7,9 +7,6 @@ import java.util.regex.Pattern;
 
 public class YoutubeValidator implements ConstraintValidator<Youtube,String> {
 
-    /*private static final String YOUTUBE_URL_REGEX =
-            "^(https?://)?(www\\.)?(youtube\\.com/watch\\?v=|youtu\\.be/)[A-Za-z0-9_-]{11}(&.*)?$";
-*/
     private static final String YOUTUBE_URL_REGEX =
             "^(https?://)?(www\\.)?(youtube\\.com/watch\\?v=|youtu\\.be/)[A-Za-z0-9_-]{11}([&?].*)?$";
 

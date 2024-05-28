@@ -25,10 +25,6 @@ public class Sheet {
     public Sheet() {
     }
 
-    public Sheet(SheetSaveRequestDto sheetSaveRequestDto) {
-        this.title = sheetSaveRequestDto.getTitle();
-        this.url = sheetSaveRequestDto.getUrl();
-    }
 
 
 }

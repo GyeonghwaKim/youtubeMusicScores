@@ -40,13 +40,10 @@ public class UserController {
             BindingResult bindingResult){
 
 
-        //NotBlank
         if(bindingResult.hasErrors()) return "newSignupForm";
 
-        //컨트롤러에서 처리하는것이 낫다(유효성 검사)
         if(!userCreateRequestDto.getPassword()
                 .equals(userCreateRequestDto.getConfirmPassword())){
-            //임의로 정한 오류 코드 passwordIncorrect
             bindingResult.rejectValue("confirmPassword","passwordInCorrect",
                     "2개의 패스워드가 일치하지 않습니다.");
 
@@ -105,13 +102,6 @@ public class UserController {
             return "newProfile";
         }
 
-//        boolean isEmailUnique=checkEmailUniqueness(profileDto);
-//        if(!isEmailUnique){
-//
-//            log.info("다른 사용자가 사용중일때");
-//            bindingResult.rejectValue("email","emailIncorrect","가능한 이메일이 아닙니다");
-//            return "newProfile";
-//        }
 
         try{
             this.userService.changeEmail(profileDto);
@@ -127,26 +117,7 @@ public class UserController {
 
     }
 
-    private boolean checkEmailUniqueness(ProfileDto profileDto) {
 
-        SiteUser siteUser=
-        this.userService.findByUsername(profileDto.getUsername());
-
-        String newEmail=profileDto.getEmail();
-        String originEmail=siteUser.getEmail();
-
-        List<String> emailList=this.userService.findAllEmail();
-
-        for(String email:emailList){
-
-            if(email.equals(originEmail)) return true;
-            if(email.equals(newEmail)) return false;
-
-        }
-
-        return true;
-
-    }
 
 
 }
