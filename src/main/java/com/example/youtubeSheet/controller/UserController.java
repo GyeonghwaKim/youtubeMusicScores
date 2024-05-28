@@ -55,7 +55,6 @@ public class UserController {
         }
 
         try{
-
             this.userService.createUser(userCreateRequestDto);
         }catch (DataIntegrityViolationException e
         ){

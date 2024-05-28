@@ -1,5 +1,6 @@
 package com.example.youtubeSheet.entity.dto;
 
+import com.example.youtubeSheet.entity.annotation.Password;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -14,6 +15,7 @@ public class ProfileDto {
     @Email(message = "이메일 형식과 맞지 않습니다")
     private String email;
 
+    @Password
     @NotBlank(message = "비밀번호가 공백일 수 없습니다")
     private String password;
 
