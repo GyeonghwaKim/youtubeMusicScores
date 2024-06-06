@@ -12,6 +12,7 @@ import com.example.youtubeSheet.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,7 +30,7 @@ public class SheetController {
 
     private final UserService userService;
 
-    //@PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/saveSheets")
     public String saveSheets(Model model)
     {
@@ -38,7 +39,7 @@ public class SheetController {
         return "newSaveForm";
     }
 
-    //@PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/saveSheets")
     public String saveSheets(@Valid @ModelAttribute("sheetForm") SheetSaveForm sheetSaveForm,
                              BindingResult bindingResult, Principal principal){
@@ -58,7 +59,7 @@ public class SheetController {
     }
 
 
-    //@PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/sheetLists")
     public String showSheets(@RequestParam(name = "id") Long id, Model model){
 
@@ -72,7 +73,7 @@ public class SheetController {
         return "newYoutube";
     }
 
-   // @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/sheetLists/delete/{id}")
     public String deleteSheets(@PathVariable(name = "id")Long id){
         Sheet sheet=this.sheetsService.getSheet(id);
@@ -81,7 +82,7 @@ public class SheetController {
 
     }
 
-    //@PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/sheetLists/modify/{id}")
     public String modifySheets(@PathVariable(name = "id")Long id,
                                @Valid @ModelAttribute("modifyTitle")SheetTitleForm sheetTitleForm,BindingResult bindingResult){

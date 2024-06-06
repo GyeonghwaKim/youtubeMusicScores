@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
@@ -24,16 +25,18 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity httpSecurity)throws Exception{
         httpSecurity.authorizeHttpRequests(
-                (authorizeHttpRequests)-> authorizeHttpRequests
-                        .requestMatchers("/**"/*,"/users/**"*/).permitAll()
-                        .anyRequest().authenticated())
-                .formLogin((formLogin)->formLogin.loginPage("/login")
+                        (authorizeHttpRequests) -> authorizeHttpRequests
+                                .requestMatchers("/", "/login", "/signup").permitAll()
+                                .anyRequest().authenticated())
+                .formLogin((formLogin) -> formLogin.loginPage("/login")
                         .defaultSuccessUrl("/"))
-                .logout((logout)->
+                .logout((logout) ->
                         logout.logoutRequestMatcher(
-                                new AntPathRequestMatcher("/logout"))
+                                        new AntPathRequestMatcher("/logout"))
                                 .logoutSuccessUrl("/")
-                                .invalidateHttpSession(true));
+                                .invalidateHttpSession(true))
+                .exceptionHandling().accessDeniedHandler(accessDeniedHandler());
+
 
         return httpSecurity.build();
     }
@@ -55,6 +58,17 @@ public class SecurityConfig {
     @Bean
     AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return (request, response, accessDeniedException) -> {
+            if (request.getRequestURI().equals("/signup") && request.isUserInRole("USER")) {
+                response.sendRedirect("/");
+            } else {
+                response.sendRedirect("/access-denied");
+            }
+        };
     }
 
 }

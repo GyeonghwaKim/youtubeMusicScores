@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,13 +29,16 @@ public class UserController {
     private final UserService userService;
 
 
+
     @GetMapping("/signup")
+    @PreAuthorize("isAnonymous()")
     public String join(Model model){
         model.addAttribute("signupForm",new UserCreateRequestDto());
         return "newSignupForm";
     }
 
     @PostMapping("/signup")
+    @PreAuthorize("isAnonymous()")
     public String createUser(
             @Valid @ModelAttribute("signupForm") UserCreateRequestDto userCreateRequestDto,
             BindingResult bindingResult){
@@ -77,6 +81,7 @@ public class UserController {
     }
 
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/profile")
     public String profile(Model model, Principal principal){
         ProfileDto profileDto =new ProfileDto();
@@ -87,6 +92,7 @@ public class UserController {
         return "newProfile";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/profile")
     public String profile(@Valid @ModelAttribute("user") ProfileDto profileDto,BindingResult bindingResult){
 
