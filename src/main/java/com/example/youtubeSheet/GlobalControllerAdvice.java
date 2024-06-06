@@ -24,7 +24,7 @@ public class GlobalControllerAdvice {
 
 
 
-    @ModelAttribute("sheetLists")
+    @ModelAttribute("musicSheetList")
     public List<Sheet> sheetList(Principal principal){
 
 

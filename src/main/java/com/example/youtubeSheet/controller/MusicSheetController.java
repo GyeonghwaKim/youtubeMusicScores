@@ -24,14 +24,14 @@ import java.security.Principal;
 @RequestMapping
 @RequiredArgsConstructor
 @Controller
-public class SheetController {
+public class MusicSheetController {
 
     private final SheetsService sheetsService;
 
     private final UserService userService;
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/saveSheets")
+    @GetMapping("/saveMusicSheets")
     public String saveSheets(Model model)
     {
         log.info("1");
@@ -40,7 +40,7 @@ public class SheetController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PostMapping("/saveSheets")
+    @PostMapping("/saveMusicSheets")
     public String saveSheets(@Valid @ModelAttribute("sheetForm") SheetSaveForm sheetSaveForm,
                              BindingResult bindingResult, Principal principal){
 
@@ -58,9 +58,9 @@ public class SheetController {
 
     }
 
-
+//url 변경sheetLists -> musicSheets
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/sheetLists")
+    @GetMapping("/musicSheets")
     public String showSheets(@RequestParam(name = "id") Long id, Model model){
 
         Sheet sheet=this.sheetsService.getSheet(id);
@@ -70,11 +70,12 @@ public class SheetController {
         model.addAttribute("url",url);
         model.addAttribute("title",title);
 
+
         return "newYoutube";
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PostMapping("/sheetLists/delete/{id}")
+    @PostMapping("/musicSheets/delete/{id}")
     public String deleteSheets(@PathVariable(name = "id")Long id){
         Sheet sheet=this.sheetsService.getSheet(id);
         this.sheetsService.delete(sheet);
@@ -83,13 +84,13 @@ public class SheetController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PostMapping("/sheetLists/modify/{id}")
+    @PostMapping("/musicSheets/modify/{id}")
     public String modifySheets(@PathVariable(name = "id")Long id,
                                @Valid @ModelAttribute("modifyTitle")SheetTitleForm sheetTitleForm,BindingResult bindingResult){
 
         Sheet sheet=this.sheetsService.getSheet(id);
         this.sheetsService.modify(sheet,sheetTitleForm.getTitle());
-        return "redirect:/sheetLists?id="+id;
+        return "redirect:/musicSheets?id="+id;
     }
 
 
