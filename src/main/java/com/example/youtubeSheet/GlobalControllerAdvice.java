@@ -1,8 +1,8 @@
 package com.example.youtubeSheet;
 
 
+import com.example.youtubeSheet.entity.MusicSheet;
 import com.example.youtubeSheet.entity.dto.SheetTitleForm;
-import com.example.youtubeSheet.entity.Sheet;
 import com.example.youtubeSheet.entity.SiteUser;
 import com.example.youtubeSheet.service.SheetsService;
 import com.example.youtubeSheet.service.UserService;
@@ -25,7 +25,7 @@ public class GlobalControllerAdvice {
 
 
     @ModelAttribute("musicSheetList")
-    public List<Sheet> sheetList(Principal principal){
+    public List<MusicSheet> sheetList(Principal principal){
 
 
         if(principal ==null) return null;

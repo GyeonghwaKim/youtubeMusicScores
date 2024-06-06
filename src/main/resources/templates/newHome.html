@@ -11,7 +11,7 @@
 
     <div sec:authorize="isAuthenticated()" class="position-absolute top-50 start-50 translate-middle text-center">
         <h1 th:text="#{home.authenticated.intro(${username})}">Welcome</h1>
-        <h2><a th:href="@{saveSheets}" th:text="#{home.saveMusicSheets}">Save Music Sheets</a></h2>
+        <h2><a th:href="@{/saveMusicSheets}" th:text="#{home.saveMusicSheets}">Save Music Sheets</a></h2>
     </div>
 
 

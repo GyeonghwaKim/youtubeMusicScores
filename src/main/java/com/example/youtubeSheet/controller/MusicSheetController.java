@@ -1,10 +1,10 @@
 package com.example.youtubeSheet.controller;
 
 
+import com.example.youtubeSheet.entity.MusicSheet;
 import com.example.youtubeSheet.entity.dto.SheetSaveForm;
 import com.example.youtubeSheet.entity.dto.SheetSaveRequestDto;
 import com.example.youtubeSheet.entity.dto.SheetTitleForm;
-import com.example.youtubeSheet.entity.Sheet;
 
 import com.example.youtubeSheet.entity.SiteUser;
 import com.example.youtubeSheet.service.SheetsService;
@@ -19,6 +19,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Slf4j
 @RequestMapping
@@ -34,7 +37,6 @@ public class MusicSheetController {
     @GetMapping("/saveMusicSheets")
     public String saveSheets(Model model)
     {
-        log.info("1");
         model.addAttribute("sheetForm",new SheetSaveRequestDto());
         return "newSaveForm";
     }
@@ -44,32 +46,30 @@ public class MusicSheetController {
     public String saveSheets(@Valid @ModelAttribute("sheetForm") SheetSaveForm sheetSaveForm,
                              BindingResult bindingResult, Principal principal){
 
+        if(bindingResult.hasErrors())return "newSaveForm";
 
-        if(bindingResult.hasErrors()){
-
-            return "newSaveForm";
-        }
-
-
-        //유효성 검사도 해야해용
         SiteUser siteUser=this.userService.findByUsername(principal.getName());
-        this.sheetsService.save(sheetSaveForm,siteUser);
+        LocalDate createLocalDate=LocalDate.now();
+        this.sheetsService.save(sheetSaveForm,siteUser,createLocalDate);
         return "redirect:/";
 
     }
 
-//url 변경sheetLists -> musicSheets
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/musicSheets")
     public String showSheets(@RequestParam(name = "id") Long id, Model model){
 
-        Sheet sheet=this.sheetsService.getSheet(id);
-
-        String title=this.sheetsService.showTitle(sheet);
-        String url=this.sheetsService.showUrl(sheet);
+        MusicSheet musicSheet=this.sheetsService.getSheet(id);
+        String title= musicSheet.getTitle();
+        String url=musicSheet.getUrl();
         model.addAttribute("url",url);
         model.addAttribute("title",title);
 
+        LocalDate musicSheetDate=musicSheet.getCreateLocalDate();
+        LocalDate currentDate= LocalDate.now();
+        long countDays= ChronoUnit.DAYS.between(musicSheetDate,currentDate)+1;
+
+        model.addAttribute("countDays",countDays);
 
         return "newYoutube";
     }
@@ -77,8 +77,8 @@ public class MusicSheetController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/musicSheets/delete/{id}")
     public String deleteSheets(@PathVariable(name = "id")Long id){
-        Sheet sheet=this.sheetsService.getSheet(id);
-        this.sheetsService.delete(sheet);
+        MusicSheet musicSheet =this.sheetsService.getSheet(id);
+        this.sheetsService.delete(musicSheet);
         return "redirect:/";
 
     }
@@ -88,8 +88,8 @@ public class MusicSheetController {
     public String modifySheets(@PathVariable(name = "id")Long id,
                                @Valid @ModelAttribute("modifyTitle")SheetTitleForm sheetTitleForm,BindingResult bindingResult){
 
-        Sheet sheet=this.sheetsService.getSheet(id);
-        this.sheetsService.modify(sheet,sheetTitleForm.getTitle());
+        MusicSheet musicSheet =this.sheetsService.getSheet(id);
+        this.sheetsService.modify(musicSheet,sheetTitleForm.getTitle());
         return "redirect:/musicSheets?id="+id;
     }
 

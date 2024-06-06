@@ -1,15 +1,14 @@
 package com.example.youtubeSheet.entity;
 
-
-import com.example.youtubeSheet.entity.dto.SheetSaveRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import java.time.LocalDate;
 
 @Getter
 @Setter
 @Entity
-public class Sheet {
+public class MusicSheet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,11 +17,12 @@ public class Sheet {
     private String title;
     private String url;
 
-
     @ManyToOne
     private SiteUser siteUser;
 
-    public Sheet() {
+    private LocalDate createLocalDate;
+
+    public MusicSheet() {
     }
 
 
