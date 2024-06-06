@@ -4,23 +4,23 @@
 
   <form class="form-save position-absolute top-50 start-50 translate-middle text-center border"
         th:action="@{/saveSheets}" th:object="${sheetForm}" method="post">
-      <h1>Save Sheets!</h1>
+      <h1 th:text="#{saveForm.intro}">Save Sheets!</h1>
       <div th:replace="~{newError :: errorsFragment}"></div>
       <p></p>
       <div class="mb-3 row">
-        <label for="title" class="col-sm-2 col-form-label">Title</label>
+        <label for="title" class="col-sm-2 col-form-label" th:text="#{saveForm.title}">Title</label>
         <div class="col-sm-10">
           <input type="text" class="form-control form-control-lg" th:field="*{title}">
         </div>
       </div>
       <div class="mb-3 row">
-        <label for="url" class="col-sm-2 col-form-label">Url</label>
+        <label for="url" class="col-sm-2 col-form-label" th:text="#{saveForm.url}">Url</label>
         <div class="col-sm-10">
           <input type="text" class="form-control form-control-lg" th:field="*{url}">
         </div>
       </div>
 
-      <button type="submit" class="w-25 btn  btn-outline-primary">Save</button>
+      <button type="submit" class="w-25 btn  btn-outline-primary" th:text="#{saveForm.saveBtn}">Save</button>
     </form>
   </div>
   </body>

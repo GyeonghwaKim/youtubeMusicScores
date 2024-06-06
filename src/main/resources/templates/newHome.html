@@ -2,10 +2,13 @@
 
 <body>
 
-        <div layout:fragment="content" class="position-absolute top-50 start-50 translate-middle" >
-            <h1>시작하세요</h1>
-        </div>
+<div layout:fragment="content">
 
+    <div  class="position-absolute top-50 start-50 translate-middle text-center" >
+        <h1 th:text="#{home.intro}">Save and practice your favorite video music Sheets!!</h1>
+        <h2><a th:href="@{/signup}" th:text="#{home.signup}">Plz Sign up first</a></h2>
+    </div>
 
+</div>
 </body>
 </html>

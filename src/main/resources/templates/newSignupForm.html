@@ -3,25 +3,25 @@
   <div layout:fragment="content">
     <form class="form-signup position-absolute top-50 start-50 translate-middle text-center border"
           th:action="@{/signup}" th:object="${signupForm}" method="post">
-        <h1>Sign up!</h1>
+        <h1 th:text="#{signupForm.intro}">Sign up!</h1>
         <div th:replace="~{newError :: errorsFragment}"></div>
         <div class="input-group input-group-lg mb-3">
-            <label for="username" class="col-sm-2 col-form-label">Username</label>
+            <label for="username" class="col-sm-2 col-form-label" th:text="#{username}">Username</label>
             <input type="text" class="form-control" th:field="*{username}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
           </div>
           <div class="input-group input-group-lg mb-3">
-            <label for="password" class="col-sm-2 col-form-label">Password</label>
+            <label for="password" class="col-sm-2 col-form-label" th:text="#{password}">Password</label>
             <input type="password" class="form-control" th:field="*{password}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
           </div>
           <div class="input-group input-group-lg mb-3">
-            <label for="confirmPassword" class="col-sm-2 col-form-label">Confirm Password</label>
+            <label for="confirmPassword" class="col-sm-2 col-form-label" th:text="#{confirmPassword}">Confirm Password</label>
             <input type="password" class="form-control" th:field="*{confirmPassword}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
           </div>
           <div class="input-group input-group-lg mb-3">
-            <label for="email" class="col-sm-2 col-form-label">Email</label>
+            <label for="email" class="col-sm-2 col-form-label" th:text="#{email}">Email</label>
             <input type="text" class="form-control" th:field="*{email}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
           </div>
-          <button type="submit" class="w-25 btn  btn-outline-primary">Save</button>
+          <button type="submit" class="w-25 btn  btn-outline-primary" th:text="#{signupForm.saveBtn}">Save</button>
       </form>
   </div>
 </body>
