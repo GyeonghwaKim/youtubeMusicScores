@@ -23,6 +23,7 @@ public class GlobalControllerAdvice {
     private final UserService userService;
 
 
+
     @ModelAttribute("sheetLists")
     public List<Sheet> sheetList(Principal principal){
 
@@ -39,5 +40,4 @@ public class GlobalControllerAdvice {
     public SheetTitleForm sheetTitleForm(Model model){
         return new SheetTitleForm();
     }
-
 }

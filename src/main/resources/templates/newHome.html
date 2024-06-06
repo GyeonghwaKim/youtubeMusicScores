@@ -4,10 +4,16 @@
 
 <div layout:fragment="content">
 
-    <div  class="position-absolute top-50 start-50 translate-middle text-center" >
-        <h1 th:text="#{home.intro}">Save and practice your favorite video music Sheets!!</h1>
+    <div  sec:authorize="isAnonymous()" class="position-absolute top-50 start-50 translate-middle text-center" >
+        <h1 th:text="#{home.anonymous.intro}">Save and practice your favorite video music Sheets!!</h1>
         <h2><a th:href="@{/signup}" th:text="#{home.signup}">Plz Sign up first</a></h2>
     </div>
+
+    <div sec:authorize="isAuthenticated()" class="position-absolute top-50 start-50 translate-middle text-center">
+        <h1 th:text="#{home.authenticated.intro(${username})}">Welcome</h1>
+        <h2><a th:href="@{saveSheets}" th:text="#{home.saveMusicSheets}">Save Music Sheets</a></h2>
+    </div>
+
 
 </div>
 </body>
