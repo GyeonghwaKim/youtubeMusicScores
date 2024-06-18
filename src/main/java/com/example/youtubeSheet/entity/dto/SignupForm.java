@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserCreateRequestDto {
+public class SignupForm {
 
 
     @NotBlank(message = "사용자 ID는 필수 항목입니다")
@@ -28,6 +28,6 @@ public class UserCreateRequestDto {
     private String email;
 
 
-    public UserCreateRequestDto() {
+    public SignupForm() {
     }
 }

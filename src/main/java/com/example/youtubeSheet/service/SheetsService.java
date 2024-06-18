@@ -2,14 +2,13 @@ package com.example.youtubeSheet.service;
 
 
 import com.example.youtubeSheet.entity.MusicSheet;
-import com.example.youtubeSheet.entity.dto.SheetSaveForm;
+import com.example.youtubeSheet.entity.dto.MusicSheetBindingForm;
 import com.example.youtubeSheet.entity.SiteUser;
 import com.example.youtubeSheet.repository.SheetsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,10 +19,10 @@ public class SheetsService {
 
     private final SheetsRepository sheetsRepository;
 
-    public void save(SheetSaveForm sheetSaveForm, SiteUser siteUser, LocalDate createLocalDate){
+    public void save(MusicSheetBindingForm musicSheetBindingForm, SiteUser siteUser, LocalDate createLocalDate){
         MusicSheet musicSheet =new MusicSheet();
-        musicSheet.setTitle(sheetSaveForm.getTitle());
-        musicSheet.setUrl(sheetSaveForm.getUrl());
+        musicSheet.setTitle(musicSheetBindingForm.getTitle());
+        musicSheet.setUrl(musicSheetBindingForm.getUrl());
         musicSheet.setSiteUser(siteUser);
         musicSheet.setCreateLocalDate(createLocalDate);
         sheetsRepository.save(musicSheet);

@@ -3,7 +3,7 @@
   <div layout:fragment="content">
 
   <form class="form-save position-absolute top-50 start-50 translate-middle text-center border"
-        th:action="@{/saveMusicSheets}" th:object="${sheetForm}" method="post">
+        th:action="@{/saveMusicSheets}" th:object="${musicSheetForm}" method="post">
       <h1 th:text="#{saveForm.intro}">Save Sheets!</h1>
       <div th:replace="~{newError :: errorsFragment}"></div>
       <p></p>

@@ -2,9 +2,9 @@ package com.example.youtubeSheet.controller;
 
 
 import com.example.youtubeSheet.entity.MusicSheet;
-import com.example.youtubeSheet.entity.dto.SheetSaveForm;
-import com.example.youtubeSheet.entity.dto.SheetSaveRequestDto;
-import com.example.youtubeSheet.entity.dto.SheetTitleForm;
+import com.example.youtubeSheet.entity.dto.MusicSheetBindingForm;
+import com.example.youtubeSheet.entity.dto.MusicSheetForm;
+import com.example.youtubeSheet.entity.dto.MusicSheetTitleForm;
 
 import com.example.youtubeSheet.entity.SiteUser;
 import com.example.youtubeSheet.service.SheetsService;
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 @Slf4j
@@ -37,20 +36,20 @@ public class MusicSheetController {
     @GetMapping("/saveMusicSheets")
     public String saveSheets(Model model)
     {
-        model.addAttribute("sheetForm",new SheetSaveRequestDto());
+        model.addAttribute("musicSheetForm",new MusicSheetForm());
         return "newSaveForm";
     }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/saveMusicSheets")
-    public String saveSheets(@Valid @ModelAttribute("sheetForm") SheetSaveForm sheetSaveForm,
+    public String saveSheets(@Valid @ModelAttribute("musicSheetForm") MusicSheetBindingForm musicSheetBindingForm,
                              BindingResult bindingResult, Principal principal){
 
         if(bindingResult.hasErrors())return "newSaveForm";
 
         SiteUser siteUser=this.userService.findByUsername(principal.getName());
         LocalDate createLocalDate=LocalDate.now();
-        this.sheetsService.save(sheetSaveForm,siteUser,createLocalDate);
+        this.sheetsService.save(musicSheetBindingForm,siteUser,createLocalDate);
         return "redirect:/";
 
     }
@@ -86,10 +85,10 @@ public class MusicSheetController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/musicSheets/modify/{id}")
     public String modifySheets(@PathVariable(name = "id")Long id,
-                               @Valid @ModelAttribute("modifyTitle")SheetTitleForm sheetTitleForm,BindingResult bindingResult){
+                               @Valid @ModelAttribute("modifyTitle") MusicSheetTitleForm musicSheetTitleForm, BindingResult bindingResult){
 
         MusicSheet musicSheet =this.sheetsService.getSheet(id);
-        this.sheetsService.modify(musicSheet,sheetTitleForm.getTitle());
+        this.sheetsService.modify(musicSheet, musicSheetTitleForm.getTitle());
         return "redirect:/musicSheets?id="+id;
     }
 

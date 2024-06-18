@@ -2,7 +2,7 @@ package com.example.youtubeSheet;
 
 
 import com.example.youtubeSheet.entity.MusicSheet;
-import com.example.youtubeSheet.entity.dto.SheetTitleForm;
+import com.example.youtubeSheet.entity.dto.MusicSheetTitleForm;
 import com.example.youtubeSheet.entity.SiteUser;
 import com.example.youtubeSheet.service.SheetsService;
 import com.example.youtubeSheet.service.UserService;
@@ -37,7 +37,7 @@ public class GlobalControllerAdvice {
     }
 
     @ModelAttribute("modifyTitle")
-    public SheetTitleForm sheetTitleForm(Model model){
-        return new SheetTitleForm();
+    public MusicSheetTitleForm sheetTitleForm(Model model){
+        return new MusicSheetTitleForm();
     }
 }

@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SheetTitleForm {
+public class MusicSheetTitleForm {
 
 
     @NotBlank

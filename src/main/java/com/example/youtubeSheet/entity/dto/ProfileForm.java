@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ProfileDto {
+public class ProfileForm {
     private String username;
 
     @NotBlank(message = "이메일이 공백일 수 없습니다")

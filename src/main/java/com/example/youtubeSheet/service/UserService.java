@@ -1,7 +1,7 @@
 package com.example.youtubeSheet.service;
 
-import com.example.youtubeSheet.entity.dto.ProfileDto;
-import com.example.youtubeSheet.entity.dto.UserCreateRequestDto;
+import com.example.youtubeSheet.entity.dto.ProfileForm;
+import com.example.youtubeSheet.entity.dto.SignupForm;
 import com.example.youtubeSheet.entity.SiteUser;
 
 import com.example.youtubeSheet.repository.UserRepository;
@@ -23,14 +23,14 @@ public class UserService {
     private final BCryptPasswordEncoder passwordEncoder;
 
 
-    public SiteUser createUser(UserCreateRequestDto userCreateRequestDto) {
+    public SiteUser createUser(SignupForm signupForm) {
 
         SiteUser siteUser =new SiteUser();
-        siteUser.setUsername(userCreateRequestDto.getUsername());
-        siteUser.setEmail(userCreateRequestDto.getEmail());
+        siteUser.setUsername(signupForm.getUsername());
+        siteUser.setEmail(signupForm.getEmail());
         siteUser.setUuid(UUID.randomUUID());
 
-        String encodePassword=passwordEncoder.encode(userCreateRequestDto.getPassword());
+        String encodePassword=passwordEncoder.encode(signupForm.getPassword());
         siteUser.setPassword(encodePassword);
 
         this.userRepository.save(siteUser);
@@ -43,10 +43,10 @@ public class UserService {
         return this.userRepository.findByUsername(name).get();
     }
 
-    public void changePassword(ProfileDto profileDto) {
+    public void changePassword(ProfileForm profileForm) {
 
-        SiteUser siteUser=findByUsername(profileDto.getUsername());
-        String encodePassword=passwordEncoder.encode(profileDto.getPassword());
+        SiteUser siteUser=findByUsername(profileForm.getUsername());
+        String encodePassword=passwordEncoder.encode(profileForm.getPassword());
 
         siteUser.setPassword(encodePassword);
 
@@ -64,9 +64,9 @@ public class UserService {
 
     }
 
-    public void changeEmail(ProfileDto profileDto) {
-        SiteUser siteUser=findByUsername(profileDto.getUsername());
-        siteUser.setEmail(profileDto.getEmail());
+    public void changeEmail(ProfileForm profileForm) {
+        SiteUser siteUser=findByUsername(profileForm.getUsername());
+        siteUser.setEmail(profileForm.getEmail());
         this.userRepository.save(siteUser);
 
     }
