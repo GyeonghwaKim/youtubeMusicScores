@@ -28,7 +28,6 @@ public class UserService {
         SiteUser siteUser =new SiteUser();
         siteUser.setUsername(signupForm.getUsername());
         siteUser.setEmail(signupForm.getEmail());
-        siteUser.setUuid(UUID.randomUUID());
 
         String encodePassword=passwordEncoder.encode(signupForm.getPassword());
         siteUser.setPassword(encodePassword);
