@@ -10,7 +10,7 @@ import java.util.List;
 
 
 @Repository
-public interface MusicSheetsRepository extends JpaRepository<MusicSheet,Long> {
+public interface MusicSheetRepository extends JpaRepository<MusicSheet,Long> {
     List<MusicSheet> findBySiteUser(SiteUser siteUser);
 
 

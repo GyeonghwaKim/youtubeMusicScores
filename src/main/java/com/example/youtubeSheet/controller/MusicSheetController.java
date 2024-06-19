@@ -7,7 +7,7 @@ import com.example.youtubeSheet.entity.dto.MusicSheetForm;
 import com.example.youtubeSheet.entity.dto.MusicSheetTitleForm;
 
 import com.example.youtubeSheet.entity.SiteUser;
-import com.example.youtubeSheet.service.MusicSheetsService;
+import com.example.youtubeSheet.service.MusicSheetService;
 import com.example.youtubeSheet.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ import java.time.temporal.ChronoUnit;
 @Controller
 public class MusicSheetController {
 
-    private final MusicSheetsService musicSheetsService;
+    private final MusicSheetService musicSheetService;
 
     private final UserService userService;
 
@@ -49,7 +49,7 @@ public class MusicSheetController {
 
         SiteUser siteUser=this.userService.findByUsername(principal.getName());
         LocalDate createLocalDate=LocalDate.now();
-        this.musicSheetsService.save(musicSheetBindingForm,siteUser,createLocalDate);
+        this.musicSheetService.save(musicSheetBindingForm,siteUser,createLocalDate);
         return "redirect:/";
 
     }
@@ -58,7 +58,7 @@ public class MusicSheetController {
     @GetMapping("/musicSheets")
     public String showSheets(@RequestParam(name = "id") Long id, Model model){
 
-        MusicSheet musicSheet=this.musicSheetsService.getSheet(id);
+        MusicSheet musicSheet=this.musicSheetService.getSheet(id);
         String title= musicSheet.getTitle();
         String url=musicSheet.getUrl();
         model.addAttribute("url",url);
@@ -76,8 +76,8 @@ public class MusicSheetController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/musicSheets/delete/{id}")
     public String deleteSheets(@PathVariable(name = "id")Long id){
-        MusicSheet musicSheet =this.musicSheetsService.getSheet(id);
-        this.musicSheetsService.delete(musicSheet);
+        MusicSheet musicSheet =this.musicSheetService.getSheet(id);
+        this.musicSheetService.delete(musicSheet);
         return "redirect:/";
 
     }
@@ -87,8 +87,8 @@ public class MusicSheetController {
     public String modifySheets(@PathVariable(name = "id")Long id,
                                @Valid @ModelAttribute("modifyTitle") MusicSheetTitleForm musicSheetTitleForm, BindingResult bindingResult){
 
-        MusicSheet musicSheet =this.musicSheetsService.getSheet(id);
-        this.musicSheetsService.modify(musicSheet, musicSheetTitleForm.getTitle());
+        MusicSheet musicSheet =this.musicSheetService.getSheet(id);
+        this.musicSheetService.modify(musicSheet, musicSheetTitleForm.getTitle());
         return "redirect:/musicSheets?id="+id;
     }
 

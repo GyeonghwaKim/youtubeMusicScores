@@ -4,7 +4,7 @@ package com.example.youtubeSheet.service;
 import com.example.youtubeSheet.entity.MusicSheet;
 import com.example.youtubeSheet.entity.dto.MusicSheetBindingForm;
 import com.example.youtubeSheet.entity.SiteUser;
-import com.example.youtubeSheet.repository.MusicSheetsRepository;
+import com.example.youtubeSheet.repository.MusicSheetRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +15,9 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-public class MusicSheetsService {
+public class MusicSheetService {
 
-    private final MusicSheetsRepository musicSheetsRepository;
+    private final MusicSheetRepository musicSheetRepository;
 
     public void save(MusicSheetBindingForm musicSheetBindingForm, SiteUser siteUser, LocalDate createLocalDate){
         MusicSheet musicSheet =new MusicSheet();
@@ -25,32 +25,32 @@ public class MusicSheetsService {
         musicSheet.setUrl(musicSheetBindingForm.getUrl());
         musicSheet.setSiteUser(siteUser);
         musicSheet.setCreateLocalDate(createLocalDate);
-        musicSheetsRepository.save(musicSheet);
+        musicSheetRepository.save(musicSheet);
 
     }
 
     public MusicSheet getSheet(Long id){
-        Optional<MusicSheet> sheet=this.musicSheetsRepository.findById(id);
+        Optional<MusicSheet> sheet=this.musicSheetRepository.findById(id);
         return sheet.get();
     }
 
 
     public List<MusicSheet> showSheetList(SiteUser siteUser){
 
-        return musicSheetsRepository.findBySiteUser(siteUser);
+        return musicSheetRepository.findBySiteUser(siteUser);
     }
 
 
 
     public void delete(MusicSheet musicSheet){
 
-        this.musicSheetsRepository.delete(musicSheet);
+        this.musicSheetRepository.delete(musicSheet);
     }
 
     public void modify(MusicSheet musicSheet, String title){
 
         musicSheet.setTitle(title);
-        this.musicSheetsRepository.save(musicSheet);
+        this.musicSheetRepository.save(musicSheet);
 
     }
 
