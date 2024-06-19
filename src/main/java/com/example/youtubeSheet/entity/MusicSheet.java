@@ -3,14 +3,11 @@ package com.example.youtubeSheet.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.time.LocalDate;
 
-
-@Entity
-@Setter
 @Getter
-@IdClass(MusicSheetId.class)
+@Setter
+@Entity
 public class MusicSheet {
 
     @Id
@@ -20,9 +17,7 @@ public class MusicSheet {
     private String title;
     private String url;
 
-    @Id
     @ManyToOne
-    @JoinColumn(name = "site_user_id")
     private SiteUser siteUser;
 
     private LocalDate createLocalDate;
