@@ -4,7 +4,7 @@ package com.example.youtubeSheet;
 import com.example.youtubeSheet.entity.MusicSheet;
 import com.example.youtubeSheet.entity.dto.MusicSheetTitleForm;
 import com.example.youtubeSheet.entity.SiteUser;
-import com.example.youtubeSheet.service.SheetsService;
+import com.example.youtubeSheet.service.MusicSheetsService;
 import com.example.youtubeSheet.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ui.Model;
@@ -18,7 +18,7 @@ import java.util.List;
 @ControllerAdvice
 public class GlobalControllerAdvice {
 
-    private final SheetsService sheetsService;
+    private final MusicSheetsService musicSheetsService;
 
     private final UserService userService;
 
@@ -32,7 +32,7 @@ public class GlobalControllerAdvice {
 
         SiteUser siteUser=this.userService.findByUsername(principal.getName());
 
-        return this.sheetsService.showSheetList(siteUser);
+        return this.musicSheetsService.showSheetList(siteUser);
 
     }
 
