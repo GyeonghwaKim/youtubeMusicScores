@@ -5,16 +5,20 @@
             <a class="navbar-brand" th:href="@{/}" th:text="#{projectTitle}">Youtube Sheets</a>
             <div class="d-flex">
                 <div sec:authorize="isAnonymous()">
-                <a  id="login" th:href="@{/login}" class="btn">
-                    <span class="text-primary" th:text="#{nav.login}">Login</span>
-                </a></div>
+                    <a  id="login" th:href="@{/login}" class="btn">
+                        <span th:text="#{nav.login}">Login</span>
+                    </a>
+                </div>
                 <div sec:authorize="isAuthenticated()">
-                <a  id="logout" th:href="@{/logout}" class="btn">
-                    <span class="text-primary" th:text="#{nav.logout}">Logout</span>
-                </a></div>
-                <button id="menu" class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-                    <span class="text-primary" th:text="#{nav.menu}">Menu</span>
-                </button>
+                    <a  id="logout" th:href="@{/logout}" class="btn">
+                        <span th:text="#{nav.logout}">Logout</span>
+                    </a>
+                </div>
+                <div>
+                    <a id="menu" class="btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                        <span th:text="#{nav.menu}">menu</span>
+                    </a>
+                </div>
             </div>
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                 <div class="offcanvas-header">
