@@ -1,5 +1,6 @@
 package com.example.youtubeSheet.service;
 
+import com.example.youtubeSheet.DataNotFoundException;
 import com.example.youtubeSheet.entity.dto.ProfileForm;
 import com.example.youtubeSheet.entity.dto.SignupForm;
 import com.example.youtubeSheet.entity.SiteUser;
@@ -57,7 +58,7 @@ public class UserService {
         if(siteUser.isPresent()){
             return of(siteUser.get());
         }else{
-            return null;
+            throw new DataNotFoundException("User Not Found");
         }
     }
 

@@ -1,6 +1,7 @@
 package com.example.youtubeSheet.service;
 
 
+import com.example.youtubeSheet.DataNotFoundException;
 import com.example.youtubeSheet.entity.MusicSheet;
 import com.example.youtubeSheet.entity.dto.MusicSheetDto;
 import com.example.youtubeSheet.entity.dto.SiteUserDto;
@@ -38,7 +39,7 @@ public class MusicSheetService {
         if(musicSheet.isPresent()){
             return of(musicSheet.get());
         }else{
-            return null;
+            throw new DataNotFoundException("MusicSheet Not Found");
         }
 
     }

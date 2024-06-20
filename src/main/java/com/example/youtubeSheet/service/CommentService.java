@@ -1,6 +1,7 @@
 package com.example.youtubeSheet.service;
 
 
+import com.example.youtubeSheet.DataNotFoundException;
 import com.example.youtubeSheet.entity.Comment;
 import com.example.youtubeSheet.entity.SiteUser;
 import com.example.youtubeSheet.entity.dto.CommentDto;
@@ -51,8 +52,7 @@ public class CommentService {
         if(comment.isPresent()){
             return of(comment.get());
         }else{
-            //예외던지기
-            return null;
+            throw new DataNotFoundException("Comment Not Found");
         }
     }
 

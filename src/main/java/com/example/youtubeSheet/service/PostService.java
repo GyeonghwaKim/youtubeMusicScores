@@ -1,6 +1,7 @@
 package com.example.youtubeSheet.service;
 
 
+import com.example.youtubeSheet.DataNotFoundException;
 import com.example.youtubeSheet.entity.Post;
 import com.example.youtubeSheet.entity.SiteUser;
 import com.example.youtubeSheet.entity.dto.PostDto;
@@ -52,8 +53,7 @@ public class PostService {
         if(post.isPresent()){
             return of(post.get());
         }else{
-            //예외던지기
-            return null;
+            throw new DataNotFoundException("Post Not Found");
         }
     }
 
