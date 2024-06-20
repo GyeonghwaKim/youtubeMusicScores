@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 @Getter
@@ -35,6 +36,9 @@ public class Post {
 
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
+
+    @ManyToMany
+    private Set<SiteUser> voter;
 
 
 

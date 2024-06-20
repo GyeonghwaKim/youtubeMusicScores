@@ -114,5 +114,13 @@ public class PostController {
         return "redirect:/post/list?page=0";
     }
 
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/vote/{id}")
+    public String postVote(Principal principal, @PathVariable("id") Long id) {
+        PostDto postDto = this.postService.getPost(id);
+        SiteUserDto siteUserDto = this.userService.getUser(principal.getName());
+        this.postService.vote(postDto, siteUserDto);
+        return "redirect:/post/detail/"+id;
+    }
 
 }

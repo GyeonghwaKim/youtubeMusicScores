@@ -8,6 +8,7 @@ import com.example.youtubeSheet.entity.dto.PostForm;
 import com.example.youtubeSheet.entity.dto.SiteUserDto;
 import com.example.youtubeSheet.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class PostService {
@@ -67,6 +69,11 @@ public class PostService {
 
     public void delete(PostDto postDto) {
         this.postRepository.delete(of(postDto));
+    }
+
+    public void vote(PostDto postDto,SiteUserDto siteUserDto){
+        postDto.getVoter().add(siteUserDto);
+        this.postRepository.save(of(postDto));
     }
 
     private PostDto of(Post post){
