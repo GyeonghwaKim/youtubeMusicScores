@@ -6,7 +6,8 @@
                 <h2 th:text="${post.title}">제목</h2>
                 <hr class="">
                 <div class="d-flex justify-content-end">
-                <h6 ><span class="me-3" th:text="${post.author.username}">test1</span><span th:text="${post.createAt}">2024.06.11</span></h6>
+                <h6 ><span class="me-3" th:text="${post.author.username}">test1</span><span
+                        th:text="${#temporals.format(post.createAt, 'yyyy-MM-dd HH:mm')}">2024.06.11</span></h6>
                 </div>
 
                 <div class="card m-3">
@@ -39,7 +40,7 @@
                         <div class="col-1">
                             <div class="badge bg-light text-dark text-start">
                                 <div class=""><span th:text="${comment.author.username}">test2</span></div>
-                                <div><span th:text="${comment.createAt}">2015.05.01</span></div>
+                                <div><span th:text="${#temporals.format(comment.createAt, 'yyyy-MM-dd HH:mm')}">2015.05.01</span></div>
                             </div>
                         </div>
                     </div>

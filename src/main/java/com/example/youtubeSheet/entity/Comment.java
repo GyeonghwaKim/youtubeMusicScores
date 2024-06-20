@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Setter
 @Getter
@@ -23,7 +24,7 @@ public class Comment {
     @Column(nullable = false)
     private String content;
 
-    private LocalDate createAt;
+    private LocalDateTime createAt;
 
     @ManyToOne
     @JoinColumn(name = "post_id",nullable = false)

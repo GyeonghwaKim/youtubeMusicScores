@@ -1,12 +1,8 @@
 package com.example.youtubeSheet.controller;
 
 
-import com.example.youtubeSheet.entity.MusicSheet;
-import com.example.youtubeSheet.entity.dto.MusicSheetBindingForm;
-import com.example.youtubeSheet.entity.dto.MusicSheetForm;
-import com.example.youtubeSheet.entity.dto.MusicSheetTitleForm;
+import com.example.youtubeSheet.entity.dto.*;
 
-import com.example.youtubeSheet.entity.SiteUser;
 import com.example.youtubeSheet.service.MusicSheetService;
 import com.example.youtubeSheet.service.UserService;
 import jakarta.validation.Valid;
@@ -34,37 +30,37 @@ public class MusicSheetController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/saveMusicSheets")
-    public String saveSheets(Model model)
+    public String saveMusicSheets(MusicSheetForm musicSheetForm)
     {
-        model.addAttribute("musicSheetForm",new MusicSheetForm());
         return "newSaveForm";
     }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/saveMusicSheets")
-    public String saveSheets(@Valid @ModelAttribute("musicSheetForm") MusicSheetBindingForm musicSheetBindingForm,
-                             BindingResult bindingResult, Principal principal){
+    public String saveMusicSheets(@Valid @ModelAttribute("musicSheetForm") MusicSheetForm musicSheetForm,
+                                  BindingResult bindingResult, Principal principal){
 
         if(bindingResult.hasErrors())return "newSaveForm";
 
-        SiteUser siteUser=this.userService.findByUsername(principal.getName());
-        LocalDate createLocalDate=LocalDate.now();
-        this.musicSheetService.save(musicSheetBindingForm,siteUser,createLocalDate);
+        SiteUserDto siteUserDto=this.userService.getUser(principal.getName());
+        this.musicSheetService.save(musicSheetForm.getTitle(), musicSheetForm.getUrl(),
+                siteUserDto);
+
+        //참신한 리다이렉트생각하기
         return "redirect:/";
 
     }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/musicSheets")
-    public String showSheets(@RequestParam(name = "id") Long id, Model model){
+    public String showMusicSheets(@RequestParam(name = "id") Long id, Model model){
 
-        MusicSheet musicSheet=this.musicSheetService.getSheet(id);
-        String title= musicSheet.getTitle();
-        String url=musicSheet.getUrl();
-        model.addAttribute("url",url);
-        model.addAttribute("title",title);
+        MusicSheetDto musicSheetDto=this.musicSheetService.getSheet(id);
 
-        LocalDate musicSheetDate=musicSheet.getCreateLocalDate();
+        model.addAttribute("url",musicSheetDto.getUrl());
+        model.addAttribute("title",musicSheetDto.getTitle());
+//고치세용
+        LocalDate musicSheetDate=musicSheetDto.getCreateLocalDate();
         LocalDate currentDate= LocalDate.now();
         long countDays= ChronoUnit.DAYS.between(musicSheetDate,currentDate)+1;
 
@@ -75,20 +71,23 @@ public class MusicSheetController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/musicSheets/delete/{id}")
-    public String deleteSheets(@PathVariable(name = "id")Long id){
-        MusicSheet musicSheet =this.musicSheetService.getSheet(id);
-        this.musicSheetService.delete(musicSheet);
+    public String deleteMusicSheets(@PathVariable(name = "id")Long id){
+
+        MusicSheetDto musicSheetDto =this.musicSheetService.getSheet(id);
+        this.musicSheetService.delete(musicSheetDto);
         return "redirect:/";
 
     }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/musicSheets/modify/{id}")
-    public String modifySheets(@PathVariable(name = "id")Long id,
-                               @Valid @ModelAttribute("modifyTitle") MusicSheetTitleForm musicSheetTitleForm, BindingResult bindingResult){
+    public String modifyMusicSheets(@PathVariable(name = "id")Long id,
+                                    @Valid @ModelAttribute("modifyTitle") MusicSheetForm musicSheetForm, BindingResult bindingResult){
 
-        MusicSheet musicSheet =this.musicSheetService.getSheet(id);
-        this.musicSheetService.modify(musicSheet, musicSheetTitleForm.getTitle());
+
+
+        MusicSheetDto musicSheetDto =this.musicSheetService.getSheet(id);
+        this.musicSheetService.modify(musicSheetDto, musicSheetForm.getTitle());
         return "redirect:/musicSheets?id="+id;
     }
 

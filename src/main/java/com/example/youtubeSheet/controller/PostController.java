@@ -6,11 +6,13 @@ import com.example.youtubeSheet.entity.SiteUser;
 import com.example.youtubeSheet.entity.dto.CommentForm;
 import com.example.youtubeSheet.entity.dto.PostDto;
 import com.example.youtubeSheet.entity.dto.PostForm;
+import com.example.youtubeSheet.entity.dto.SiteUserDto;
 import com.example.youtubeSheet.service.PostService;
 import com.example.youtubeSheet.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -20,8 +22,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
 
 @Slf4j
 
@@ -34,44 +34,43 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping("/list")
-    public String postList(Model model){
-        List<Post> postList=this.postService.getList();
-        model.addAttribute("postList",postList);
+    public String postList(Model model,@RequestParam(value = "page",defaultValue = "0") int page){
+
+        Page<Post> paging=this.postService.getList(page);
+        model.addAttribute("paging",paging);
         return "postList";
     }
 
     @GetMapping("/detail/{id}")
-    public String postDetail(Model model,@PathVariable(name = "id")Long id){
-        //postid로 찾고
-        PostDto post=this.postService.getPost(id);
+    public String postDetail(Model model,CommentForm commentForm,@PathVariable(name = "id")Long id){
 
-        CommentForm commentForm=new CommentForm();
-        model.addAttribute("commentForm",commentForm);
-        model.addAttribute("post",post);
+        PostDto postDto=this.postService.getPost(id);
+        model.addAttribute("post",postDto);
         return "postDetail";
     }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
-    public String createPost(Model model)
+    public String createPost(PostForm postForm)
     {
-        model.addAttribute("postForm",new PostForm());
         return "postForm";
     }
+
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
     public String createPost(@Valid @ModelAttribute("postForm") PostForm postForm,
                              BindingResult bindingResult, Principal principal){
         if(bindingResult.hasErrors()) return "postForm";
 
-        SiteUser siteUser=this.userService.findByUsername(principal.getName());
-        this.postService.create(postForm,siteUser);
+        SiteUserDto siteUserDto=this.userService.getUser(principal.getName());
+        this.postService.create(postForm.getTitle(),postForm.getContent(),siteUserDto);
 
-        return "redirect:/";
+        return "redirect:/post/list?page=0";
     }
+
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/modify/{id}")
-    public String modifyPost(Model model, @PathVariable(name = "id") Long id,Principal principal){
+    public String modifyPost(PostForm postForm, @PathVariable(name = "id") Long id,Principal principal){
 
         PostDto postDto=this.postService.getPost(id);
 
@@ -79,11 +78,8 @@ public class PostController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
         }
 
-        PostForm postForm=new PostForm();
         postForm.setTitle(postDto.getTitle());
         postForm.setContent(postDto.getContent());
-
-        model.addAttribute("postForm",postForm);
 
         return "postForm";
     }
@@ -101,19 +97,21 @@ public class PostController {
 
         this.postService.modify(postDto,postForm.getTitle(),postForm.getContent());
 
-        return "redirect:/";
+        return "redirect:/post/detail/" + id;
     }
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/delete/{id}")
     public String deletePost(@PathVariable(name = "id") Long id,Principal principal){
 
         PostDto postDto=this.postService.getPost(id);
+
         if(!postDto.getAuthor().getUsername().equals(principal.getName())){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
         }
+
         this.postService.delete(postDto);
 
-        return "redirect:/";
+        return "redirect:/post/list?page=0";
     }
 
 

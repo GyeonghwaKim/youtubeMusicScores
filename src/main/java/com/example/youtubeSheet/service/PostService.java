@@ -5,12 +5,18 @@ import com.example.youtubeSheet.entity.Post;
 import com.example.youtubeSheet.entity.SiteUser;
 import com.example.youtubeSheet.entity.dto.PostDto;
 import com.example.youtubeSheet.entity.dto.PostForm;
+import com.example.youtubeSheet.entity.dto.SiteUserDto;
 import com.example.youtubeSheet.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,18 +26,21 @@ public class PostService {
     private final PostRepository postRepository;
     private final ModelMapper modelMapper;
 
-    public List<Post> getList(){
-        return this.postRepository.findAll();
+    public Page<Post> getList(int page){
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("createAt"));
+        Pageable pageable= PageRequest.of(page,10,Sort.by(sorts));
+        return this.postRepository.findAll(pageable);
     }
 
 
-    public void create(PostForm postForm, SiteUser siteUser) {
-        Post post=new Post();
-        post.setTitle(postForm.getTitle());
-        post.setContent(postForm.getContent());
-        post.setAuthor(siteUser);
-        post.setCreateAt(LocalDate.now());
-        this.postRepository.save(post);
+    public void create(String title,String content, SiteUserDto siteUserDto) {
+        PostDto postDto=new PostDto();
+        postDto.setTitle(title);
+        postDto.setContent(content);
+        postDto.setAuthor(siteUserDto);
+        postDto.setCreateAt(LocalDateTime.now());
+        this.postRepository.save(of(postDto));
     }
 
     public PostDto getPost(Long id) {
@@ -50,11 +59,9 @@ public class PostService {
 
         postDto.setTitle(title);
         postDto.setContent(content);
-        postDto.setUpdateAt(LocalDate.now());
+        postDto.setUpdateAt(LocalDateTime.now());
 
-        Post post=of(postDto);
-
-        this.postRepository.save(post);
+        this.postRepository.save(of(postDto));
 
     }
 

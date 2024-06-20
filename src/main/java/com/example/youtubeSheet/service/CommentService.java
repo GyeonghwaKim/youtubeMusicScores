@@ -5,6 +5,7 @@ import com.example.youtubeSheet.entity.Comment;
 import com.example.youtubeSheet.entity.SiteUser;
 import com.example.youtubeSheet.entity.dto.CommentDto;
 import com.example.youtubeSheet.entity.dto.PostDto;
+import com.example.youtubeSheet.entity.dto.SiteUserDto;
 import com.example.youtubeSheet.repository.CommentRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -21,13 +23,13 @@ public class CommentService {
     private final ModelMapper modelMapper;
     private final CommentRepository commentRepository;
 
-    public void create(PostDto postDto, String content, SiteUser siteUser) {
+    public void create(PostDto postDto, String content, SiteUserDto siteUserDto) {
 
         CommentDto commentDto=new CommentDto();
         commentDto.setPostDto(postDto);
-        commentDto.setAuthor(siteUser);
+        commentDto.setAuthor(siteUserDto);
         commentDto.setContent(content);
-        commentDto.setCreateAt(LocalDate.now());
+        commentDto.setCreateAt(LocalDateTime.now());
 
         Comment comment=of(commentDto);
 

@@ -4,14 +4,16 @@ import com.example.youtubeSheet.entity.dto.ProfileForm;
 import com.example.youtubeSheet.entity.dto.SignupForm;
 import com.example.youtubeSheet.entity.SiteUser;
 
+import com.example.youtubeSheet.entity.dto.SiteUserDto;
 import com.example.youtubeSheet.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -20,8 +22,17 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
+
     private final BCryptPasswordEncoder passwordEncoder;
 
+    private final ModelMapper modelMapper;
+
+    private SiteUserDto of(SiteUser siteUser){
+        return modelMapper.map(siteUser,SiteUserDto.class);
+    }
+    private SiteUser of(SiteUserDto siteUser){
+        return modelMapper.map(siteUser,SiteUser.class);
+    }
 
     public SiteUser createUser(SignupForm signupForm) {
 
@@ -38,18 +49,27 @@ public class UserService {
 
     }
 
-    public SiteUser findByUsername(String name) {
-        return this.userRepository.findByUsername(name).get();
+
+
+    public SiteUserDto getUser(String name) {
+        Optional<SiteUser> siteUser=this.userRepository.findByUsername(name);
+
+        if(siteUser.isPresent()){
+            return of(siteUser.get());
+        }else{
+            return null;
+        }
     }
 
     public void changePassword(ProfileForm profileForm) {
 
-        SiteUser siteUser=findByUsername(profileForm.getUsername());
+        SiteUserDto siteUserDto= getUser(profileForm.getUsername());
+
         String encodePassword=passwordEncoder.encode(profileForm.getPassword());
 
-        siteUser.setPassword(encodePassword);
+        siteUserDto.setPassword(encodePassword);
 
-        this.userRepository.save(siteUser);
+        this.userRepository.save(of(siteUserDto));
 
     }
 
@@ -64,9 +84,11 @@ public class UserService {
     }
 
     public void changeEmail(ProfileForm profileForm) {
-        SiteUser siteUser=findByUsername(profileForm.getUsername());
-        siteUser.setEmail(profileForm.getEmail());
-        this.userRepository.save(siteUser);
+        SiteUserDto siteUserDto= getUser(profileForm.getUsername());
+        siteUserDto.setEmail(profileForm.getEmail());
+        this.userRepository.save(of(siteUserDto));
 
     }
+
+
 }

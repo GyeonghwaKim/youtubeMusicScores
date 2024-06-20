@@ -16,15 +16,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
 
     @GetMapping("/")
-    public String home(Model model){
-        Authentication auth= SecurityContextHolder.getContext().getAuthentication();
-        if(auth!=null && auth.isAuthenticated()&&auth.getPrincipal()instanceof UserDetails){
-            UserDetails userDetails=(UserDetails) auth.getPrincipal();
-            log.info(userDetails.getUsername());
-            model.addAttribute("username",userDetails.getUsername());
-        }
+    public String home(){
 
-        return "newHome";    }
+        return "redirect:/post/list";    }
 
 
 }

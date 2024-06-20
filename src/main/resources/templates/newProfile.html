@@ -2,7 +2,7 @@
 <body>
 <div layout:fragment="content">
   <form class="form-profile position-absolute top-50 start-50 translate-middle text-center border"
-  th:action="@{/profile}" th:object="${user}" method="post" >
+  th:action="@{/profile}" th:object="${profileForm}" method="post" >
       <h1 th:text="#{profile.intro}">Your Profile</h1>
       <hr>
       <div th:replace="~{newError :: errorsFragment}"></div>

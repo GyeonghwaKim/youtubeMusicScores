@@ -2,12 +2,11 @@ package com.example.youtubeSheet;
 
 
 import com.example.youtubeSheet.entity.MusicSheet;
-import com.example.youtubeSheet.entity.dto.MusicSheetTitleForm;
-import com.example.youtubeSheet.entity.SiteUser;
+import com.example.youtubeSheet.entity.dto.MusicSheetForm;
+import com.example.youtubeSheet.entity.dto.SiteUserDto;
 import com.example.youtubeSheet.service.MusicSheetService;
 import com.example.youtubeSheet.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
@@ -25,19 +24,19 @@ public class GlobalControllerAdvice {
 
 
     @ModelAttribute("musicSheetList")
-    public List<MusicSheet> sheetList(Principal principal){
-
+    public List<MusicSheet> showsSheetList(Principal principal){
 
         if(principal ==null) return null;
 
-        SiteUser siteUser=this.userService.findByUsername(principal.getName());
+        SiteUserDto siteUserDto=this.userService.getUser(principal.getName());
 
-        return this.musicSheetService.showSheetList(siteUser);
+        return this.musicSheetService.showSheetList(siteUserDto);
 
     }
 
     @ModelAttribute("modifyTitle")
-    public MusicSheetTitleForm sheetTitleForm(Model model){
-        return new MusicSheetTitleForm();
+    public MusicSheetForm sheetTitleForm(){
+
+        return new MusicSheetForm();
     }
 }

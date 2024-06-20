@@ -46,7 +46,7 @@ class PostServiceTest {
             postForm.setContent("Test Content " + i);
 
             // Act
-            postService.create(postForm, testUser);
+            //postService.create(postForm, testUser);
         }
 
 

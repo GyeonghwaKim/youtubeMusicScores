@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -18,8 +19,8 @@ public class PostDto {
     private Long id;
     private String title;
     private String content;
-    private SiteUser author;
+    private SiteUserDto author;
     private List<Comment> commentList;
-    private LocalDate createAt;
-    private LocalDate updateAt;
+    private LocalDateTime createAt;
+    private LocalDateTime updateAt;
 }

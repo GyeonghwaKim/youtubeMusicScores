@@ -1,10 +1,10 @@
 package com.example.youtubeSheet.controller;
 
 
-import com.example.youtubeSheet.entity.SiteUser;
 import com.example.youtubeSheet.entity.dto.CommentDto;
 import com.example.youtubeSheet.entity.dto.CommentForm;
 import com.example.youtubeSheet.entity.dto.PostDto;
+import com.example.youtubeSheet.entity.dto.SiteUserDto;
 import com.example.youtubeSheet.service.CommentService;
 import com.example.youtubeSheet.service.PostService;
 import com.example.youtubeSheet.service.UserService;
@@ -34,24 +34,22 @@ public class CommentController {
 
     @PreAuthorize("isAuthenticated")
     @PostMapping("/create")
-    public String createComment(Model model, @RequestParam("postId") Long id, @Valid @ModelAttribute(name="commentForm") CommentForm commentForm,
+    public String createComment(Model model, @RequestParam("postId") Long postId,
+                                @Valid @ModelAttribute(name="commentForm") CommentForm commentForm,
                                 BindingResult bindingResult, Principal principal){
 
-        PostDto postDto =this.postService.getPost(id);
-//변경 필요
-        SiteUser siteUser=this.userService.findByUsername(principal.getName());
+        PostDto postDto =this.postService.getPost(postId);
+
+        SiteUserDto siteUserDto =this.userService.getUser(principal.getName());
 
         if(bindingResult.hasErrors()){
             model.addAttribute("post",postDto);
             return "postDetail";
         }
 
-        log.info(commentForm.getContent());
+        this.commentService.create(postDto,commentForm.getContent(),siteUserDto);
 
-        this.commentService.create(postDto,commentForm.getContent(),siteUser);
-
-//redirect 주소 변경 필요
-        return "redirect:/";
+        return "redirect:/post/detail/"+postId;
 
     }
 
@@ -60,7 +58,6 @@ public class CommentController {
 
         CommentDto commentDto=this.commentService.getComment(id);
 
-log.info("1");
         if (!commentDto.getAuthor().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
         }
@@ -68,7 +65,7 @@ log.info("1");
         this.commentService.delete(commentDto);
 
         //주소 수정해주세용
-        return "redirect:/";
+        return "redirect:/post/detail/"+commentDto.getPostDto().getId();
 
     }
 }

@@ -7,14 +7,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 public class CommentDto {
     private Long id;
-    private SiteUser author;
+    private SiteUserDto author;
     private String content;
-    private LocalDate createAt;
+    private LocalDateTime createAt;
     private PostDto postDto;
 
 }

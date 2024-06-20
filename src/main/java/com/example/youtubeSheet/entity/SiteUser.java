@@ -13,7 +13,6 @@ import java.util.UUID;
 @Entity
 public class SiteUser {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,8 +25,6 @@ public class SiteUser {
 
     @Column(unique=true)
     private String email;
-
-
 
     public SiteUser() {
     }

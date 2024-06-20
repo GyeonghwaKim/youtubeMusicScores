@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,14 +29,13 @@ public class UserController {
 
     @GetMapping("/signup")
     @PreAuthorize("isAnonymous()")
-    public String join(Model model){
-        model.addAttribute("signupForm",new SignupForm());
+    public String signupUser(SignupForm signupForm){
         return "newSignupForm";
     }
 
     @PostMapping("/signup")
     @PreAuthorize("isAnonymous()")
-    public String createUser(
+    public String signupUser(
             @Valid @ModelAttribute("signupForm") SignupForm signupForm,
             BindingResult bindingResult){
 
@@ -81,11 +79,9 @@ public class UserController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/profile")
-    public String profile(Model model, Principal principal){
-        ProfileForm profileForm =new ProfileForm();
+    public String showProfile(ProfileForm profileForm, Principal principal){
         profileForm.setUsername(principal.getName());
-        profileForm.setEmail(this.userService.findByUsername(principal.getName()).getEmail());
-        model.addAttribute("user", profileForm);
+        profileForm.setEmail(this.userService.getUser(principal.getName()).getEmail());
 
         return "newProfile";
     }
