@@ -27,36 +27,40 @@
                     <a th:href="@{|/post/delete/${post.id}|}" class="btn btn-sm btn-outline-dark mx-1">삭제</a>
                 </div>
 
-            </div>
+                <h5>댓글</h5>
+                <hr class="">
 
-            <h5>댓글</h5>
-            <hr class="">
-
-            <div class="row m-1">
-                <div class="col-11 d-flex justify-content-between">
-                    <span>댓글입니다</span>
-                    <a class="btn btn-sm btn-close" aria-label="Close"></a>
-                </div>
-                <div class="col-1">
-                    <div class="badge bg-light text-dark text-start">
-                        <div class=""><span>test2</span></div>
-                        <div><span>2015.05.01</span></div>
+                <div th:each="comment:${post.commentList}">
+                    <div class="row m-1">
+                        <div class="col-11 d-flex justify-content-between">
+                            <span th:text="${comment.content}">댓글입니다</span>
+                            <a th:href="@{|/comment/delete/${comment.id}|}" class="btn btn-sm btn-close" aria-label="Close"></a>
+                        </div>
+                        <div class="col-1">
+                            <div class="badge bg-light text-dark text-start">
+                                <div class=""><span th:text="${comment.author.username}">test2</span></div>
+                                <div><span th:text="${comment.createAt}">2015.05.01</span></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row m-1">
-                <div class="col-11 d-flex justify-content-between">
-                    <span>댓글입니다</span>
-                    <a class="btn btn-sm btn-close" aria-label="Close"></a>
-                </div>
-                <div class="col-1">
-                    <div class="badge bg-light text-dark text-start">
-                        <div class=""><span>test2</span></div>
-                        <div><span>2015.05.01</span></div>
+                <!--댓글창-->
+
+                <div class="row align-items-center mt-3">
+                    <div class="col">
+                        <form th:object="${commentForm}" th:action="@{/comment/create(postId=${post.id})}" method="post">
+                            <div class="form-group d-flex">
+                                <textarea class="form-control me-2" id="comment" rows="1" placeholder="Enter your comment"
+                                  th:field="*{content}"></textarea>
+                                <button type="submit" class="btn btn-sm btn-dark">Submit</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
+
             </div>
+
 
 
         </div>

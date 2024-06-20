@@ -3,6 +3,7 @@ package com.example.youtubeSheet.controller;
 
 import com.example.youtubeSheet.entity.Post;
 import com.example.youtubeSheet.entity.SiteUser;
+import com.example.youtubeSheet.entity.dto.CommentForm;
 import com.example.youtubeSheet.entity.dto.PostDto;
 import com.example.youtubeSheet.entity.dto.PostForm;
 import com.example.youtubeSheet.service.PostService;
@@ -43,6 +44,9 @@ public class PostController {
     public String postDetail(Model model,@PathVariable(name = "id")Long id){
         //postid로 찾고
         PostDto post=this.postService.getPost(id);
+
+        CommentForm commentForm=new CommentForm();
+        model.addAttribute("commentForm",commentForm);
         model.addAttribute("post",post);
         return "postDetail";
     }

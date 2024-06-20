@@ -29,13 +29,12 @@ public class Post {
     private SiteUser author;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> comments;
+    private List<Comment> commentList;
 
 
     private LocalDate createAt;
     private LocalDate updateAt;
 
 
-    //commnetList
 
 }
