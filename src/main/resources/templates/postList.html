@@ -29,7 +29,12 @@
         <tr th:each="post,loop:${paging}">
             <th th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}" scope="row">1</th>
             <td >
-                <a th:href="@{|/post/detail/${post.id}|}" th:text="${post.title}" >Title</a></td>
+                <a th:href="@{|/post/detail/${post.id}|}" th:text="${post.title}" >Title</a>
+                <span class="text-danger small ms-2"
+                      th:if="${#lists.size(post.commentList) > 0}"
+                      th:text="${#lists.size(post.commentList)}">
+                    </span>
+            </td>
             <td th:text="${post.author.username}">Author</td>
             <td th:text="${#temporals.format(post.createAt, 'yyyy-MM-dd HH:mm')}">date</td>
         </tr>
