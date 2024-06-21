@@ -1,9 +1,10 @@
 package com.example.youtubeSheet.service;
 
-import com.example.youtubeSheet.entity.SiteUser;
-import com.example.youtubeSheet.entity.dto.PostForm;
-import com.example.youtubeSheet.repository.PostRepository;
-import com.example.youtubeSheet.repository.UserRepository;
+import com.example.youtubeSheet.user.SiteUser;
+import com.example.youtubeSheet.post.dto.PostForm;
+import com.example.youtubeSheet.post.PostService;
+import com.example.youtubeSheet.post.PostRepository;
+import com.example.youtubeSheet.user.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
