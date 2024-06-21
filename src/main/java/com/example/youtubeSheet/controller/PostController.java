@@ -41,6 +41,16 @@ public class PostController {
         return "postList";
     }
 
+    @GetMapping("/search")
+    public String searchPost(Model model,@RequestParam(value = "page",defaultValue = "0") int page,
+                           @RequestParam("keyword")String keyword){
+        Page<Post> paging=this.postService.searchPost(page,keyword);
+        model.addAttribute("paging",paging);
+        return "postList";
+    }
+
+
+
     @GetMapping("/detail/{id}")
     public String postDetail(Model model,CommentForm commentForm,@PathVariable(name = "id")Long id){
 

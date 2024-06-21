@@ -9,8 +9,11 @@
         <div class="col-8"></div>
         <div class="col-4">
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
-                <button class="btn btn-outline-primary" type="button" id="button-addon2">Button</button>
+                <form action="/post/search" method="get">
+                    <input type="text" class="form-control" placeholder="Search"
+                           name="keyword" aria-label="Search" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-primary" type="submit" id="button-addon2">Button</button>
+                </form>
             </div>
         </div>
     </div>

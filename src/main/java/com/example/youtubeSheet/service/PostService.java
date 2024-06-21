@@ -36,6 +36,14 @@ public class PostService {
         return this.postRepository.findAll(pageable);
     }
 
+    public Page<Post> searchPost(int page,String keyword){
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("createAt"));
+        Pageable pageable= PageRequest.of(page,10,Sort.by(sorts));
+        return this.postRepository.findByTitleContainingOrAuthorUsername(keyword,keyword,pageable);
+
+    }
+
 
     public void create(String title,String content, SiteUserDto siteUserDto) {
         PostDto postDto=new PostDto();

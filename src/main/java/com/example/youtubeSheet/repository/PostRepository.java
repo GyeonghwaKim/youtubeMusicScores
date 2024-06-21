@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface PostRepository extends JpaRepository<Post,Long> {
     @Override
     Page<Post> findAll(Pageable pageable);
+
+    Page<Post> findByTitleContainingOrAuthorUsername(String title,String username,Pageable pageable);
 }
